@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
+
+    public function __construct(Marca $marca)
+    {
+        $this->marca = $marca;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +20,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        $marcas = Marca::all();
-        return $marcas;
+        return  $this->marca->all();
     }
 
     /**
@@ -26,19 +31,19 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        $marca = Marca::create($request->all());
+        $marca = $this->marca->create($request->all());
         return $marca;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Marca  $marca
+     * @param  \App\Models\Integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Marca $marca)
+    public function show($id)
     {
-        return $marca;
+        return $this->marca->find($id);
     }
 
     /**
@@ -47,10 +52,6 @@ class MarcaController extends Controller
      * @param  \App\Models\Marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function edit(Marca $marca)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -59,10 +60,9 @@ class MarcaController extends Controller
      * @param  \App\Models\Marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Marca $marca)
+    public function update(Request $request, $id)
     {
-        $marca->update($request->all());
-        return $marca;
+        return $this->marca->find($id)->update($request->all());
     }
 
     /**
@@ -71,9 +71,9 @@ class MarcaController extends Controller
      * @param  \App\Models\Marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Marca $marca)
+    public function destroy($id)
     {
-        $marca->delete();
-        return $marca;
+        return $this->marca->find($id)->delete();
+
     }
 }
