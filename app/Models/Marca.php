@@ -12,7 +12,7 @@ class Marca extends Model
 
     public function rules(){
         return [
-            "nome"=> "required|unique:marcas|min:3",
+            "nome"=> "required|unique:marcas,nome,".$this->id."|min:3",
             "imagem" => "required"
         ];
     }
@@ -21,7 +21,7 @@ class Marca extends Model
         return [
             "required" => "O campo :attribute é obrigatório",
             "nome.unique" => "nome da marca já existe",
-            "nome.min" => "nome muito grande"
+            "nome.min" => "nome muito pequeno"
         ];
     }
 

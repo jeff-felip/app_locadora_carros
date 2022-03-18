@@ -31,8 +31,6 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $request->validate($this->marca->rules(), $this->marca->feedback());
 
         $marca = $this->marca->create($request->all());
@@ -69,10 +67,30 @@ class MarcaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($this->marca->find($id) == null){
+        $marca = $this->marca->find($id);
+
+        if($marca === null){
             return response()->json(["Erro" => "Impossivel atualizar! Marca não encontrada."], 404);
         }
-        return response()->json($this->marca->find($id)->update($request->all()), 201);
+
+        //atualização de parte dos campos
+        if($request->method() === "PATCH"){
+
+            $regrasDinamicas = array();
+            //guarda apenas as regras relacionadas aos campos passados
+            foreach ($marca->rules() as $key => $value) {
+                if(array_key_exists($key, $request->all())){
+                    $regrasDinamicas[$key] = $value;
+                }
+            }
+            //valida usando apenas as regras guardadas
+            $request->validate($regrasDinamicas, $marca->feedback());
+        }else{
+            $request->validate($marca->rules(), $marca->feedback());
+        }
+
+        $marca->update($request->all());
+        return response()->json($marca, 201);
     }
 
     /**
@@ -83,7 +101,7 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        if($this->marca->find($id) == null){
+        if($this->marca->find($id) === null){
             return response()->json(["Erro" => "Impossivel deletar! Marca não encontrada."], 404);
         }
         return response()->json($this->marca->find($id)->delete(), 200);
