@@ -20,7 +20,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        return  $this->marca->all();
+        return  response()->json($this->marca->all(), 200);
     }
 
     /**
@@ -32,7 +32,7 @@ class MarcaController extends Controller
     public function store(Request $request)
     {
         $marca = $this->marca->create($request->all());
-        return $marca;
+        return response()->json($marca, 200);
     }
 
     /**
@@ -44,9 +44,9 @@ class MarcaController extends Controller
     public function show($id)
     {
         if( $this->marca->find($id) === null){
-           return ["Erro" => "marca não encontrada!"];
+           return response()->json(["Erro" => "marca não encontrada!"], 404);
         }
-        return $this->marca->find($id);
+        return response()->json($this->marca->find($id), 200);
     }
 
     /**
@@ -66,9 +66,9 @@ class MarcaController extends Controller
     public function update(Request $request, $id)
     {
         if($this->marca->find($id) == null){
-            return ["Erro" => "Impossivel atualizar! Marca não encontrada."];
+            return response()->json(["Erro" => "Impossivel atualizar! Marca não encontrada."], 404);
         }
-        return $this->marca->find($id)->update($request->all());
+        return response()->json($this->marca->find($id)->update($request->all()), 201);
     }
 
     /**
@@ -80,9 +80,9 @@ class MarcaController extends Controller
     public function destroy($id)
     {
         if($this->marca->find($id) == null){
-            return ["Erro" => "Impossivel deletar! Marca não encontrada."];
+            return response()->json(["Erro" => "Impossivel deletar! Marca não encontrada."], 404);
         }
-        return $this->marca->find($id)->delete();
+        return response()->json($this->marca->find($id)->delete(), 200);
 
     }
 }
