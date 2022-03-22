@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('marca_id');
             $table->string('nome', 30);
             $table->string('imagem', 100);
-            $table->integer('numero de portas');
+            $table->integer('numero_portas');
             $table->integer('lugares');
             $table->boolean('air_bag');
             $table->boolean('abs');
