@@ -11,14 +11,16 @@ class Marca extends Model
     use HasFactory;
     protected $fillable = ['nome', 'imagem'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
-           'nome' => 'required|unique:marcas,nome,'.$this->id.'|min:1',
-           'imagem' => 'required|file|mimes:png,jpeg,jpg,txt,pdf,doc'
+            'nome' => 'required|unique:marcas,nome,' . $this->id . '|min:1',
+            'imagem' => 'required|file|mimes:png,jpeg,jpg,txt,pdf,doc'
         ];
     }
 
-    public function feedback() {
+    public function feedback()
+    {
         return [
             'required' => 'O campo :attribute é obrigatório',
             'nome.unique' => 'O nome da marca já existe',
@@ -27,5 +29,8 @@ class Marca extends Model
         ];
     }
 
-
+    public function modelos()
+    {
+        return $this->hasMany('App\Models\Modelo');
+    }
 }
