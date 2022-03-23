@@ -28,6 +28,14 @@ class ModeloController extends Controller
             $modelos = $this->modelo->with('marca');
         }
 
+        if($request->has('filtro')){
+            $filtro = explode(';', $request->filtro);
+            foreach ($filtro as $key => $condicoes) {
+                $c = explode(':', $condicoes);
+                $modelos = $modelos->where($c[0], $c[1], $c[2]);
+            }
+        }
+
         if($request->has('atributos')){
             $atributos = $request->atributos;
             $modelos = $modelos->selectRaw($atributos)->get();
