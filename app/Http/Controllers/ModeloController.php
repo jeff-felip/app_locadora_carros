@@ -37,7 +37,7 @@ class ModeloController extends Controller
             $modeloRepository->selectAtributos($request->atributos);
         }
 
-        return response()->json($modeloRepository->getRegistros(), 200);
+        return response()->json($modeloRepository->getResultados(), 200);
     }
 
     /**
